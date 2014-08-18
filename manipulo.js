@@ -166,5 +166,39 @@
 		return this;
 	};
 
+	//Returns part of array on stated path
+	Array.prototype.getByPath = function(path){
+		//Check
+		if(path == "" || typeof path != "string") {
+			return [];
+		}
+
+		//Prepare path
+		var p, c = this;
+		path = path.split(">").reverse();
+		while(p = path.pop()) {
+			if(c instanceof Array) {
+				//Go trough array
+				p = Number(p);
+				if(isNaN(p) || p >= c.length) {
+					return [];
+				} else {
+					c = c[p];
+				}
+			} else if(typeof c == "object" && c != null && c.hasOwnProperty(p)) {
+				//Go trough object
+				c = c[p];
+
+			} else {
+				//Cannot continue
+				return [];
+			}
+		}
+
+		//Return place
+		return c;
+	};
+
+
 
 })();
