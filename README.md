@@ -1,4 +1,8 @@
-manipulojs
-==========
+Manipulo.js
+===========
 
-Extension for JavaScript arrays
+Simple extension for JavaScript arrays
+
+# Examples
+
+TBA
