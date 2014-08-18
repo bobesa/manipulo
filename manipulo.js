@@ -62,65 +62,65 @@
 
 	//Removes fields in objects inside of array
 	var DEEP_NONE = 0,
-		DEEP_ARRAY = 1,
-		DEEP_ARRAY_AND_OBJECT = 2,
-		_cleanMatch = function(val, params) {
-			var found = false;
-			//Match
-			if(params.fieldsMatch.indexOf(val) > -1) {
-				return true;
+	DEEP_ARRAY = 1,
+	DEEP_ARRAY_AND_OBJECT = 2,
+	_cleanMatch = function(val, params) {
+		var found = false;
+		//Match
+		if(params.fieldsMatch.indexOf(val) > -1) {
+			return true;
+		}
+		
+		//Starts with
+		params.fieldsStarts.forEach(function(field){
+			if(val.indexOf(field) == 0) {
+				found = true;
+				return;
 			}
-			
-			//Starts with
-			params.fieldsStarts.forEach(function(field){
-				if(val.indexOf(field) == 0) {
-					found = true;
-					return;
-				}
-			});
-			if(found) { return true; }
-			
-			//Ends with
-			params.fieldsEnds.forEach(function(field){
-				if(val.lastIndexOf(field) == val.length-field.length) {
-					found = true;
-					return;
-				}
-			});
-			if(found) { return true; }
-
-			//Is inside
-			params.fieldsInside.forEach(function(field){
-				if(val.indexOf(field) > -1) {
-					found = true;
-					return;
-				}
-			});	
-
-			return found;
-		},
-		_clean = function(obj, params) {
-			if(obj instanceof Array && params.deep > DEEP_NONE) {
-				obj.map(function(o){
-					return _clean(o, params);
-				});
-
-			} else if(typeof obj == "object" && obj != null) {
-				Object.keys(obj).forEach(function(key){
-					if(_cleanMatch(key.toLowerCase(), params)) {
-						delete obj[key];
-						return;
-					}
-					if(params.deep == DEEP_ARRAY_AND_OBJECT) {
-						obj[key] = _clean(obj[key], params);
-					}
-
-				});
-
+		});
+		if(found) { return true; }
+		
+		//Ends with
+		params.fieldsEnds.forEach(function(field){
+			if(val.lastIndexOf(field) == val.length-field.length) {
+				found = true;
+				return;
 			}
+		});
+		if(found) { return true; }
 
-			return obj;
-		};
+		//Is inside
+		params.fieldsInside.forEach(function(field){
+			if(val.indexOf(field) > -1) {
+				found = true;
+				return;
+			}
+		});	
+
+		return found;
+	},
+	_clean = function(obj, params) {
+		if(obj instanceof Array && params.deep > DEEP_NONE) {
+			obj.map(function(o){
+				return _clean(o, params);
+			});
+
+		} else if(typeof obj == "object" && obj != null) {
+			Object.keys(obj).forEach(function(key){
+				if(_cleanMatch(key.toLowerCase(), params)) {
+					delete obj[key];
+					return;
+				}
+				if(params.deep == DEEP_ARRAY_AND_OBJECT) {
+					obj[key] = _clean(obj[key], params);
+				}
+
+			});
+
+		}
+
+		return obj;
+	};
 	Array.prototype.clear = function(fields, deepness){	
 		//Check
 		if(typeof fields == "string") {
