@@ -59,4 +59,112 @@
 			return _sort(a,b,order);
 		});
 	};
+
+	//Removes fields in objects inside of array
+	var DEEP_NONE = 0,
+		DEEP_ARRAY = 1,
+		DEEP_ARRAY_AND_OBJECT = 2,
+		_cleanMatch = function(val, params) {
+			var found = false;
+			//Match
+			if(params.fieldsMatch.indexOf(val) > -1) {
+				return true;
+			}
+			
+			//Starts with
+			params.fieldsStarts.forEach(function(field){
+				if(val.indexOf(field) == 0) {
+					found = true;
+					return;
+				}
+			});
+			if(found) { return true; }
+			
+			//Ends with
+			params.fieldsEnds.forEach(function(field){
+				if(val.lastIndexOf(field) == val.length-field.length) {
+					found = true;
+					return;
+				}
+			});
+			if(found) { return true; }
+
+			//Is inside
+			params.fieldsInside.forEach(function(field){
+				if(val.indexOf(field) > -1) {
+					found = true;
+					return;
+				}
+			});	
+
+			return found;
+		},
+		_clean = function(obj, params) {
+			if(obj instanceof Array && params.deep > DEEP_NONE) {
+				obj.map(function(o){
+					return _clean(o, params);
+				});
+
+			} else if(typeof obj == "object" && obj != null) {
+				Object.keys(obj).forEach(function(key){
+					if(_cleanMatch(key.toLowerCase(), params)) {
+						delete obj[key];
+						return;
+					}
+					if(params.deep == DEEP_ARRAY_AND_OBJECT) {
+						obj[key] = _clean(obj[key], params);
+					}
+
+				});
+
+			}
+
+			return obj;
+		};
+	Array.prototype.clear = function(fields, deepness){	
+		//Check
+		if(typeof fields == "string") {
+			fields = [fields];
+		} else {
+			fields = [];
+		}
+		if(typeof deepness == "undefined") {
+			deepness = DEEP_ARRAY_AND_OBJECT;
+		}
+
+		//Categorize	
+		var params = {
+			fieldsMatch: [],
+			fieldsStarts: [],
+			fieldsEnds: [],
+			fieldsInside: [],
+			deep: deepness
+		};
+		for(var a = 0; a < fields.length; a++) {
+			var arg = fields[a];	
+			if(typeof arg == "string") {
+				arg = arg.toLowerCase();
+				if(arg.indexOf("*") == 0 && arg.lastIndexOf("*") == arg.length-1) {
+					params.fieldsInside.push(arg.substring(1,arg.length-1));
+				} else if(arg.lastIndexOf("*") == arg.length-1) {
+					params.fieldsStarts.push(arg.substring(0,arg.length-1));
+				} else if(arg.indexOf("*") == 0) {
+					params.fieldsEnds.push(arg.substring(1,arg.length));
+				} else {
+					params.fieldsMatch.push(arg);						
+				}
+			}			
+		}
+
+		//Modify data
+		if(params.fieldsMatch.length > 0 || 
+			params.fieldsStarts.length > 0 || 
+			params.fieldsEnds.length > 0 || 
+			params.fieldsInside.length > 0) {
+			return _clean(this,params);
+		}
+		return this;
+	};
+
+
 })();
