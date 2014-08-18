@@ -56,6 +56,27 @@ values = [
 	{key:2,value:57}
 ], doTest("Array.sortBy #2",values.sortBy(["key","value"]),test);
 
+//Test: Array.groupBy
+values = [
+	true,
+	"something",
+	{category:1,name:"jogurt"},
+	{category:1,name:"milk"},
+	{category:2,name:"cider"},
+	{category:3,name:"game"}
+], test = [
+	[
+		true,
+		"something"
+	],
+	[
+		{category:1,name:"jogurt"},
+		{category:1,name:"milk"}
+	],
+	[{category:2,name:"cider"}],
+	[{category:3,name:"game"}]
+], doTest("Array.groupBy",values.groupBy("category"),test);
+
 //Test: Array.getByPath
 values = [
 	"notWanted",
