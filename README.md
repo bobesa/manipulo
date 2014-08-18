@@ -64,3 +64,31 @@ values.sortBy(["key","value"]);
 ]
 ```
 
+## Array.groupBy
+
+```javascript
+Array.groupBy( key );
+```
+
+```javascript
+var values = [
+	true,
+	"something",
+	{category:1,name:"jogurt"},
+	{category:1,name:"milk"},
+	{category:2,name:"cider"},
+	{category:3,name:"game"}
+];
+
+values.groupBy("category");
+```
+
+```javascript
+[
+	[ true, "something" ],
+	[ {category: 1, name: "jogurt"}, {category: 1, name: "milk"} ],
+	[ {category: 2, name: "cider"} ],
+	[ {category: 3, name: "game"} ]
+]
+```
+
