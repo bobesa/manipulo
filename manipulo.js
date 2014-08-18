@@ -190,7 +190,7 @@
 
 		//Generate final array
 		var finalArray = [];
-		if(other.lenght > 0) {
+		if(other.length > 0) {
 			other.forEach(function(a){ finalArray.push(a); });
 		}
 		Object.keys(mapping).forEach(function(key){ finalArray.push(mapping[key]); });
