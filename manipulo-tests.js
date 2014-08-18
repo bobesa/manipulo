@@ -56,5 +56,24 @@ values = [
 	{key:2,value:57}
 ], doTest("Array.sortBy #2",values.sortBy(["key","value"]),test);
 
+//Test: Array.getByPath
+values = [
+	"notWanted",
+	true,
+	42,
+	[
+		{
+			data:[
+				0,
+				{finishLine:true},
+				true
+			]
+		},
+		{
+			something:123
+		}
+	]
+], test = {finishLine:true}, doTest("Array.getByPath",values.getByPath("3>0>data>1"),test);
+
 //Results
 console.info("= Tests passed "+testsOk+"/"+testsTotal+(testsFailed > 0 ? " ("+testsFailed+" tests failed)" : "")+" = "+(testsOk/testsTotal*100).toFixed(2)+"% success");
