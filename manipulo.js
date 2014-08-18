@@ -166,6 +166,37 @@
 		return this;
 	};
 
+	//Groups objects in array by field
+	Array.prototype.groupBy = function(field){
+		//Check
+		if(typeof field == "undefined") {
+			return this;
+		}
+
+		//Categorize
+		var other = [], mapping = {};
+		this.forEach(function(item){
+			if(typeof item == "object" && item != null && item.hasOwnProperty(field)) {
+				var value = "val_"+JSON.stringify(item[field]);
+				if(mapping.hasOwnProperty(value)) {
+					mapping[value].push(item);
+				} else {
+					mapping[value] = [item];
+				}
+			} else {
+				other.push(item);				
+			}
+		});
+
+		//Generate final array
+		var finalArray = [];
+		if(other.lenght > 0) {
+			other.forEach(function(a){ finalArray.push(a); });
+		}
+		Object.keys(mapping).forEach(function(key){ finalArray.push(mapping[key]); });
+		return finalArray;
+	};
+
 	//Returns part of array on stated path
 	Array.prototype.getByPath = function(path){
 		//Check
