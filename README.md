@@ -212,3 +212,41 @@ values.clear( "*country*" );
 	{shortcut:"es"}
 ]
 ```
+
+## Array.getByPath
+
+Returns object/array on stated path.
+- To select item in Array use numbers (starting with 0)
+- To select value in Object use key
+- Use > between numbers and keys
+- If path is not found empty array is returned 
+
+```javascript
+Array.getByPath( "path" );
+```
+
+```javascript
+var values = [
+	"notWanted",
+	true,
+	42,
+	[
+		{
+			data:[
+				0,
+				{finishLine:true},
+				true
+			]
+		},
+		{
+			something:123
+		}
+	]
+];
+
+values.getByPath("3>0>data>1");
+```
+
+```javascript
+{finishLine:true}
+```
