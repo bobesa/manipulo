@@ -1,9 +1,10 @@
 Manipulo.js
 ===========
 
-Simple extension for JavaScript arrays
+Simple extension for JavaScript arrays that allows you to group by keys, sort by keys, clear keys and go to path in array/objects combo.
 
 # Examples
+
 Those are just few examples of manipulo
 
 ## Array.sortBy
@@ -249,4 +250,26 @@ values.getByPath("3>0>data>1");
 
 ```javascript
 {finishLine:true}
+```
+
+# TODO
+
+- Remove objects by including "key"/{key:value} pairs
+- Add more tests on clear functionality
+
+# Tests
+
+To run test use NodeJS
+
+```bash
+$ node manipulo-tests.js
+```
+
+```
++ Test passed: Array.clear
++ Test passed: Array.sortBy #1
++ Test passed: Array.sortBy #2
++ Test passed: Array.groupBy
++ Test passed: Array.getByPath
+= Tests passed 5/5 = 100.00% success
 ```
