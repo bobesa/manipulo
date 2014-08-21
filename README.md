@@ -3,9 +3,15 @@ Manipulo.js
 
 Simple extension for JavaScript arrays that allows you to group by keys, sort by keys, clear keys and go to path in array/objects combo.
 
+# Todo
+
+- Add clear/getByPath functionality to Object prototype
+- Remove objects by including "key"/{key:value} pairs
+- Add more tests on clear functionality
+
 # Examples
 
-Those are just few examples of manipulo
+Those are just some examples of manipulo
 
 ## Array.sortBy
 
@@ -251,11 +257,6 @@ values.getByPath("3>0>data>1");
 ```javascript
 {finishLine:true}
 ```
-
-# TODO
-
-- Remove objects by including "key"/{key:value} pairs
-- Add more tests on clear functionality
 
 # Tests
 
