@@ -8,10 +8,12 @@ Those are just few examples of manipulo
 
 ## Array.sortBy
 
+Allows you to sort objects in Array by keys
+
 ### Single key
 
 ```javascript
-Array.sortBy( key );
+Array.sortBy( "key" );
 ```
 
 ```javascript
@@ -37,7 +39,7 @@ countries.sortBy("country");
 ### Multiple keys
 
 ```javascript
-Array.sortBy( [key1, key2...] );
+Array.sortBy( ["key1", "key2"...] );
 ```
 
 ```javascript
@@ -66,8 +68,10 @@ values.sortBy(["key","value"]);
 
 ## Array.groupBy
 
+Allows you to make collections from object groups by keys. Each value of that key is a single group.
+
 ```javascript
-Array.groupBy( key );
+Array.groupBy( "key" );
 ```
 
 ```javascript
@@ -92,3 +96,119 @@ values.groupBy("category");
 ]
 ```
 
+## Array.clear
+
+Allows you to remove fields from all object in Array.
+__Key are case insensitive__
+
+### Exactly matching
+
+This will clear just exactly matching field
+
+```javascript
+Array.clear( "key" );
+```
+
+```javascript
+var values = [
+	{country:"Poland",shortcut:"pl"},
+	{country:"France",shortcut:"fr"},
+	{country:"Czech republic",shortcut:"cs"},
+	{country:"Spain",shortcut:"es"}
+];
+
+values.clear( "country" );
+```
+
+```javascript
+[
+	{shortcut:"pl"},
+	{shortcut:"fr"},
+	{shortcut:"cs"},
+	{shortcut:"es"}
+]
+```
+
+### Exactly matching + any suffix
+
+This will clear any exactly matching field with any suffix
+
+```javascript
+Array.clear( "key*" );
+```
+
+```javascript
+var values = [
+	{countryWithSuffix:"Poland",shortcut:"pl"},
+	{country:"France",shortcut:"fr"},
+	{country:"Czech republic",shortcut:"cs"},
+	{country:"Spain",shortcut:"es"}
+];
+
+values.clear( "country*" );
+```
+
+```javascript
+[
+	{shortcut:"pl"},
+	{shortcut:"fr"},
+	{shortcut:"cs"},
+	{shortcut:"es"}
+]
+```
+
+### Exactly matching + any prefix
+
+This will clear any exactly matching field with any prefix 
+
+```javascript
+Array.clear( "*key" );
+```
+
+```javascript
+var values = [
+	{prefixCountry:"Poland",shortcut:"pl"},
+	{country:"France",shortcut:"fr"},
+	{country:"Czech republic",shortcut:"cs"},
+	{country:"Spain",shortcut:"es"}
+];
+
+values.clear( "*country" );
+```
+
+```javascript
+[
+	{shortcut:"pl"},
+	{shortcut:"fr"},
+	{shortcut:"cs"},
+	{shortcut:"es"}
+]
+```
+
+### Including or matching
+
+This will clear any field that includes or matches the key
+
+```javascript
+Array.clear( "*key*" );
+```
+
+```javascript
+var values = [
+	{prefixCountry:"Poland",shortcut:"pl"},
+	{countrySuffixed:"France",shortcut:"fr"},
+	{prefixedCountryAndSuffixed:"Czech republic",shortcut:"cs"},
+	{country:"Spain",shortcut:"es"}
+];
+
+values.clear( "*country*" );
+```
+
+```javascript
+[
+	{shortcut:"pl"},
+	{shortcut:"fr"},
+	{shortcut:"cs"},
+	{shortcut:"es"}
+]
+```
